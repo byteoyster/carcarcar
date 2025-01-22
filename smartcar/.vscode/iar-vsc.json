@@ -1,0 +1,18 @@
+{
+  "workspace": {
+    "path": "${workspaceFolder}\\iar\\cyt2bl3.eww"
+  },
+  "workspaces": {
+    "${workspaceFolder}\\iar\\cyt2bl3.eww": {
+      "configs": {
+        "${workspaceFolder}\\iar\\project_config\\cyt2bl3.ewp": "Debug"
+      },
+      "selected": {
+        "path": "${workspaceFolder}\\iar\\project_config\\cyt2bl3.ewp"
+      }
+    }
+  },
+  "workbench": {
+    "path": "D:\\IAR Systems\\Embedded Workbench 9.2"
+  }
+}
