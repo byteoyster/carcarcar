@@ -15,7 +15,7 @@
         <MemConfigValue>D:\IAR Systems\Embedded Workbench 9.2\arm\config\debugger\Infineon\CYT2BL_M4.ddf</MemConfigValue>
     </PlDriver>
     <DebugChecksum>
-        <Checksum>666553057</Checksum>
+        <Checksum>3053342453</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -50,8 +50,8 @@
     <SWOManager>
         <SamplingDivider>8192</SamplingDivider>
         <OverrideClock>0</OverrideClock>
-        <CpuClock>6223767192158101315</CpuClock>
-        <SwoClock>2329285990285984833</SwoClock>
+        <CpuClock>4703255829819629652</CpuClock>
+        <SwoClock>6071772950867238731</SwoClock>
         <DataLogMode>0</DataLogMode>
         <ItmPortsEnabled>63</ItmPortsEnabled>
         <ItmTermIOPorts>1</ItmTermIOPorts>
