@@ -7,7 +7,7 @@
 #define border_max	MT9V03X_W-2 //边界最大值
 #define border_min	1	//边界最小值	
 
-uint8 GetOSTU(uint8 tmImage[MT9V03X_H][MT9V03X_W]);
+// uint8 GetOSTU(uint8 tmImage[MT9V03X_H][MT9V03X_W]);
 void Get_Pixle(void);
 
 extern uint8 Gate;

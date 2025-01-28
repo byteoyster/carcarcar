@@ -101,6 +101,7 @@ uint8 GetOSTU(uint8 tmImage[MT9V03X_H][MT9V03X_W])      //大津法
   return Threshold;                        //返回最佳阈值;
 }
 
+
 /*
 函数名称：void get_start_point(uint8 start_row)
 功能说明：寻找两个边界的边界点作为八邻域循环的起始点
@@ -520,8 +521,10 @@ void image_process(void)
 uint16 i;
 uint8 hightest = 0;//定义一个最高行，tip：这里的最高指的是y值的最小
 /*这是离线调试用的*/
-Get_image(mt9v03x_image);
-turn_to_bin();
+//   Get_image(mt9v03x_image);
+//   turn_to_bin();
+Gate = GetOSTU(mt9v03x_image);
+tft180_show_gray_image(0, 0, (const uint8 *)mt9v03x_image, MT9V03X_W, MT9V03X_H, 160, 128, Gate);
 /*提取赛道边界*/
 image_filter(bin_image);//滤波
 image_draw_rectan(bin_image);//预处理
@@ -542,16 +545,16 @@ if (get_start_point(MT9V03X_H - 2))//找到起点了，再执行八领域，没�
 
 
 //显示图像   改成你自己的就行 等后期足够自信了，显示关掉，显示屏挺占资源的
-ips154_displayimage032_zoom(bin_image[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H,0,0);
+tft180_show_gray_image(0, 0, (const uint8 *)mt9v03x_image, MT9V03X_W, MT9V03X_H, 160, 128, Gate);
 
 	//根据最终循环次数画出边界点
 	for (i = 0; i < data_stastics_l; i++)
 	{
-		ips154_drawpoint(points_l[i][0]+2, points_l[i][1], RGB565_BLUE);//显示起点
+		tft180_draw_point(points_l[i][0]+2, points_l[i][1], RGB565_BLUE);//显示起点
 	}
 	for (i = 0; i < data_stastics_r; i++)
 	{
-		ips154_drawpoint(points_r[i][0]-2, points_r[i][1], RGB565_RED);//显示起点
+		tft180_draw_point(points_r[i][0]-2, points_r[i][1], RGB565_RED);//显示起点
 	}
 
 	for (i = hightest; i < MT9V03X_H-1; i++)
@@ -559,9 +562,9 @@ ips154_displayimage032_zoom(bin_image[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V0
 		center_line[i] = (l_border[i] + r_border[i]) >> 1;//求中线
 		//求中线最好最后求，不管是补线还是做状态机，全程最好使用一组边线，中线最后求出，不能干扰最后的输出
 		//当然也有多组边线的找法，但是个人感觉很繁琐，不建议
-		ips154_drawpoint(center_line[i], i,  RGB565_GREEN );//显示起点 显示中线	
-		ips154_drawpoint(l_border[i], i,  RGB565_GREEN );//显示起点 显示左边线
-		ips154_drawpoint(r_border[i], i,  RGB565_GREEN );//显示起点 显示右边线
+		tft180_draw_point(center_line[i], i,  RGB565_GREEN );//显示起点 显示中线	
+		tft180_draw_point(l_border[i], i,  RGB565_BLUE );//显示起点 显示左边线
+		tft180_draw_point(r_border[i], i,  RGB565_RED );//显示起点 显示右边线
 	}
 
 

@@ -23,9 +23,8 @@ int main(void)
     while(true)
     {
         if(mt9v03x_finish_flag)
-        {
-            Gate = GetOSTU(mt9v03x_image);
-            tft180_show_gray_image(0, 0, (const uint8 *)mt9v03x_image, MT9V03X_W, MT9V03X_H, 160, 128, Gate);
+        {       
+            image_process();
             mt9v03x_finish_flag = 0;
         }
     }
