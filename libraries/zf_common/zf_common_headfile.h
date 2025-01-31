@@ -101,4 +101,5 @@
 #include "seekfree_assistant_interface.h"
 //=====================================================组件应用层=====================================================
 #include "camera.h"
+#include "menu.h"
 #endif
