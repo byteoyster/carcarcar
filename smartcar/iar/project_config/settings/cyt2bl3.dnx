@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <settings>
     <Jet>
-        <PrevWtdReset>Reset and halt after bootloader</PrevWtdReset>
-        <OnlineReset>Software</OnlineReset>
         <JetConnSerialNo>SEEKFREE CMSIS-DAP V2:SF-3184895813204</JetConnSerialNo>
         <JetConnFoundProbes />
+        <PrevWtdReset>Reset and halt after bootloader</PrevWtdReset>
         <DisableInterrupts>0</DisableInterrupts>
         <LeaveRunning>0</LeaveRunning>
         <MultiCoreRunAll>0</MultiCoreRunAll>
         <CpuHaltOnBreakpointSet>0</CpuHaltOnBreakpointSet>
+        <OnlineReset>Software</OnlineReset>
     </Jet>
     <PlDriver>
         <FirstRun>0</FirstRun>
         <MemConfigValue>D:\IAR Systems\Embedded Workbench 9.2\arm\config\debugger\Infineon\CYT2BL_M4.ddf</MemConfigValue>
     </PlDriver>
     <DebugChecksum>
-        <Checksum>2705267051</Checksum>
+        <Checksum>2615915637</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>

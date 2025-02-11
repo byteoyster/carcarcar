@@ -570,7 +570,35 @@ void image_draw_rectan(uint8(*image)[image_w])
 
 	}
 }
+void fix_broken_line() {
+    for (int i = image_h - 1; i >= 1; i--) {
+        // 处理左边界丢失
+        if (l_border[i] == border_min) {
+            l_border[i] = (l_border[i + 1] + l_border[i - 1]) / 2;
+        }
+        // 处理右边界丢失
+        if (r_border[i] == border_max) {
+            r_border[i] = (r_border[i + 1] + r_border[i - 1]) / 2;
+        }
 
+        // 🔹 **补全赛道后绘制边界点**
+        tft180_draw_point(MAP_X(l_border[i]), MAP_Y(i), RGB565_BLUE);  // 左边界
+        tft180_draw_point(MAP_X(r_border[i]), MAP_Y(i), RGB565_BLUE);  // 右边界
+    }
+}
+
+void fix_long_gap() {
+    int last_valid_l = border_min;
+    int last_valid_r = border_max;
+
+    for (int i = image_h - 1; i >= 0; i--) {
+        if (l_border[i] > border_min) last_valid_l = l_border[i];
+        else l_border[i] = last_valid_l;  // 直接继承上一行的边界
+
+        if (r_border[i] < border_max) last_valid_r = r_border[i];
+        else r_border[i] = last_valid_r;
+    }
+}
 
 /*
 函数名称：void image_process(void)
@@ -615,37 +643,54 @@ tft180_clear();
 //tft180_show_gray_image(0,0,(const uint8*)mt9v03x_image,188,120,160,128,otsuThreshold((uint8*)mt9v03x_image,120,188));
 
 	//根据最终循环次数画出边界点
-	// for (i = 0; i < data_stastics_l; i++)
-	// {   
+	for (i = 0; i < data_stastics_l; i++)
+	{   
 		
-	// 	// tft180_draw_point(limit_a_b(points_l[i][0] , 0, 159),limit_a_b(points_l[i][1], 0, 127),RGB565_BLACK);//显示起点
-	// }
-	// for (i = 0; i < data_stastics_r; i++)
-	// {
-	// 	// tft180_draw_point(limit_a_b(points_r[i][0] , 0, 159), limit_a_b(points_r[i][1], 0, 127), RGB565_BLUE);//显示起点
-	// }
+		tft180_draw_point(limit_a_b(points_l[i][0] , 0, 159),limit_a_b(points_l[i][1], 0, 127),RGB565_BLACK);//显示起点
+	}
+	for (i = 0; i < data_stastics_r; i++)
+	{
+		tft180_draw_point(limit_a_b(points_r[i][0] , 0, 159), limit_a_b(points_r[i][1], 0, 127), RGB565_BLUE);//显示起点
+	}
 
 	for (i = hightest; i < image_h-1; i++)
 	{
 		center_line[i] = (l_border[i] + r_border[i]) >> 1;//求中线
 		//求中线最好最后求，不管是补线还是做状态机，全程最好使用一组边线，中线最后求出，不能干扰最后的输出
 		//当然也有多组边线的找法，但是个人感觉很繁琐，不建议
+		//fix_broken_line();
+		// fix_long_gap();
         tft180_draw_point(MAP_X(points_l[i][0]), MAP_Y(points_l[i][1]), RGB565_RED);
 		tft180_draw_point(MAP_X(points_r[i][0]), MAP_Y(points_r[i][1]), RGB565_RED);
 		tft180_draw_point(MAP_X(center_line[i]), MAP_Y(i), RGB565_GREEN);
 		// tft180_draw_point(limit_a_b(center_line[i],0,159), limit_a_b(i,0,159), RGB565_GREEN);//显示起点 显示中线	
         // tft180_draw_point(limit_a_b(l_border[i],0,159), limit_a_b(i,0,159), RGB565_GREEN);//显示起点 显示左边线
         // tft180_draw_point(limit_a_b(r_border[i],0,159), limit_a_b(i,0,159), RGB565_GREEN);//显示起点 显示右边线		
-		static float integral_error = 0;
+		
+		
+	}
+	
+	
+	static float integral_error = 0;
 		integral_error += error;
 		static float last_error = 0;
         float derivative = error - last_error;
         last_error = error;
-        float adjust = 20 * error + 0.1 * integral_error + 0 * derivative;
-        LMotor_PI(2000 + adjust, 0);
-        RMotor_PI(2000 - adjust, 0);
+        float adjust = 20 * error + 0.02 * integral_error + 0 * derivative;
+        LMotor_PI(1500 + adjust, 0);
+        RMotor_PI(1500 - adjust, 0);
+		if (l_border[image_h / 2] == border_min)  // 左直角弯
+		{
+			system_delay_ms(800);
+    		LMotor_PI(0, 0);  // 左轮倒转
+    		RMotor_PI(1500, 0);   // 右轮加速
+		}
+		else if (r_border[image_h / 2] == border_max)  // 右直角弯
+		{
+    		LMotor_PI(1500, 0);   // 左轮加速
+    		RMotor_PI(0, 0);  // 右轮倒转
+		}
 		
-	}
 
 
 }
