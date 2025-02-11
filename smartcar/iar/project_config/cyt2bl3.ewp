@@ -2200,6 +2200,18 @@
         <file>
             <name>$PROJ_DIR$\..\..\code\camera.h</name>
         </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\code\menu.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\code\menu.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\code\pid.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\code\pid.h</name>
+        </file>
     </group>
     <group>
         <name>doc</name>

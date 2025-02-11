@@ -2,7 +2,9 @@
 //  简介:八邻域图像处理
 
 //------------------------------------------------------------------------------------------------------------------
-#include "camera.h"
+#include "zf_common_headfile.h"
+typedef enum { STRAIGHT, LEFT_TURN, RIGHT_TURN, BROKEN_LINE } TurnState;
+
 
 /*
 函数名称：int my_abs(int value)
@@ -191,7 +193,7 @@ uint8 get_start_point(uint8 start_row)
 		start_point_l[1] = start_row;//y
 		if (bin_image[start_row][i] == 255 && bin_image[start_row][i - 1] == 0)
 		{
-			//printf("找到左边起点image[%d][%d]\n", start_row,i);
+			//////printf("找到左边起点image[%d][%d]\n", start_row,i);
 			l_found = 1;
 			break;
 		}
@@ -203,7 +205,7 @@ uint8 get_start_point(uint8 start_row)
 		start_point_r[1] = start_row;//y
 		if (bin_image[start_row][i] == 255 && bin_image[start_row][i + 1] == 0)
 		{
-			//printf("找到右边起点image[%d][%d]\n",start_row, i);
+			//////printf("找到右边起点image[%d][%d]\n",start_row, i);
 			r_found = 1;
 			break;
 		}
@@ -211,7 +213,7 @@ uint8 get_start_point(uint8 start_row)
 
 	if(l_found&&r_found)return 1;
 	else {
-		//printf("未找到起点\n");
+		//////printf("未找到起点\n");
 		return 0;
 	} 
 }
@@ -239,7 +241,7 @@ example：
 	search_l_r((uint16)USE_num,image,&data_stastics_l, &data_stastics_r,start_point_l[0],
 				start_point_l[1], start_point_r[0], start_point_r[1],&hightest);
  */
-#define USE_num	image_h*3	//定义找点的数组成员个数按理说300个点能放下，但是有些特殊情况确实难顶，多定义了一点
+#define USE_num	300	//定义找点的数组成员个数按理说300个点能放下，但是有些特殊情况确实难顶，多定义了一点
 
  //存放点的x，y坐标
 uint16 points_l[(uint16)USE_num][2] = { {  0 } };//左线
@@ -249,6 +251,7 @@ uint16 dir_l[(uint16)USE_num] = { 0 };//用来存储左边生长方向
 uint16 data_stastics_l = 0;//统计左边找到点的个数
 uint16 data_stastics_r = 0;//统计右边找到点的个数
 uint8 hightest = 0;//最高点
+
 void search_l_r(uint16 break_flag, uint8(*image)[image_w], uint16 *l_stastic, uint16 *r_stastic, uint8 l_start_x, uint8 l_start_y, uint8 r_start_x, uint8 r_start_y, uint8*hightest)
 {
 
@@ -354,27 +357,27 @@ void search_l_r(uint16 break_flag, uint8(*image)[image_w], uint16 *l_stastic, ui
 			||(points_l[l_data_statics-1][0] == points_l[l_data_statics - 2][0] && points_l[l_data_statics-1][0] == points_l[l_data_statics - 3][0]
 				&& points_l[l_data_statics-1][1] == points_l[l_data_statics - 2][1] && points_l[l_data_statics-1][1] == points_l[l_data_statics - 3][1]))
 		{
-			//printf("三次进入同一个点，退出\n");
+			//////printf("三次进入同一个点，退出\n");
 			break;
 		}
 		if (my_abs(points_r[r_data_statics][0] - points_l[l_data_statics - 1][0]) < 2
 			&& my_abs(points_r[r_data_statics][1] - points_l[l_data_statics - 1][1] < 2)
 			)
 		{
-			//printf("\n左右相遇退出\n");	
+			//////printf("\n左右相遇退出\n");	
 			*hightest = (points_r[r_data_statics][1] + points_l[l_data_statics - 1][1]) >> 1;//取出最高点
-			//printf("\n在y=%d处退出\n",*hightest);
+			//////printf("\n在y=%d处退出\n",*hightest);
 			break;
 		}
 		if ((points_r[r_data_statics][1] < points_l[l_data_statics - 1][1]))
 		{
-			printf("\n如果左边比右边高了，左边等待右边\n");	
+			//printf("\n如果左边比右边高了，左边等待右边\n");	
 			continue;//如果左边比右边高了，左边等待右边
 		}
 		if (dir_l[l_data_statics - 1] == 7
 			&& (points_r[r_data_statics][1] > points_l[l_data_statics - 1][1]))//左边比右边高且已经向下生长了
 		{
-			//printf("\n左边开始向下了，等待右边，等待中... \n");
+			//////printf("\n左边开始向下了，等待右边，等待中... \n");
 			center_point_l[0] = points_l[l_data_statics - 1][0];//x
 			center_point_l[1] = points_l[l_data_statics - 1][1];//y
 			l_data_statics--;
@@ -398,7 +401,7 @@ void search_l_r(uint16 break_flag, uint8(*image)[image_w], uint16 *l_stastic, ui
 				temp_r[index_r][1] = search_filds_r[(i)][1];
 				index_r++;//索引加一
 				dir_r[r_data_statics - 1] = (i);//记录生长方向
-				//printf("dir[%d]:%d\n", r_data_statics - 1, dir_r[r_data_statics - 1]);
+				//////printf("dir[%d]:%d\n", r_data_statics - 1, dir_r[r_data_statics - 1]);
 			}
 			if (index_r)
 			{
@@ -454,7 +457,7 @@ void get_left(uint16 total_L)
 	//左边
 	for (j = 0; j < total_L; j++)
 	{
-		//printf("%d\n", j);
+		//////printf("%d\n", j);
 		if (points_l[j][1] == h)
 		{
 			l_border[h] = points_l[j][0]+1;
@@ -568,6 +571,7 @@ void image_draw_rectan(uint8(*image)[image_w])
 	}
 }
 
+
 /*
 函数名称：void image_process(void)
 功能说明：最终处理函数
@@ -579,8 +583,10 @@ example： image_process();
  */
 void image_process(void)
 {
+int16 error = center_line[image_h / 2] - (image_w / 2);
 uint16 i;
 uint8 hightest = 0;//定义一个最高行，tip：这里的最高指的是y值的最小
+
 /*这是离线调试用的*/
 Get_image(mt9v03x_image);
 turn_to_bin();
@@ -592,9 +598,9 @@ data_stastics_l = 0;
 data_stastics_r = 0;
 if (get_start_point(image_h - 2))//找到起点了，再执行八领域，没找到就一直找
 {
-	printf("正在开始八领域\n");
+	////printf("正在开始八领域\n");
 	search_l_r((uint16)USE_num, bin_image, &data_stastics_l, &data_stastics_r, start_point_l[0], start_point_l[1], start_point_r[0], start_point_r[1], &hightest);
-	printf("八邻域已结束\n");
+	////printf("八邻域已结束\n");
 	// 从爬取的边界线内提取边线 ， 这个才是最终有用的边线
 	get_left(data_stastics_l);
 	get_right(data_stastics_r);
@@ -603,52 +609,46 @@ if (get_start_point(image_h - 2))//找到起点了，再执行八领域，没找
 }
 
 
-//显示图像   改成你自己的就行 等后期足够自信了，显示关掉，显示屏挺占资源的
-tft180_displayimage03x((const uint8 *)mt9v03x_image, 160, 128); 
+//显示图像 
+// tft180_displayimage03x((const uint8 *)mt9v03x_image, 160, 128); 
+tft180_clear();
+//tft180_show_gray_image(0,0,(const uint8*)mt9v03x_image,188,120,160,128,otsuThreshold((uint8*)mt9v03x_image,120,188));
 
 	//根据最终循环次数画出边界点
-	for (i = 0; i < data_stastics_l; i++)
-	{
-		tft180_draw_point(points_l[i][0]+2, points_l[i][1], RGB565_RED);//显示起点
-	}
-	for (i = 0; i < data_stastics_r; i++)
-	{
-		tft180_draw_point(points_r[i][0]-2, points_r[i][1], RGB565_RED);//显示起点
-	}
+	// for (i = 0; i < data_stastics_l; i++)
+	// {   
+		
+	// 	// tft180_draw_point(limit_a_b(points_l[i][0] , 0, 159),limit_a_b(points_l[i][1], 0, 127),RGB565_BLACK);//显示起点
+	// }
+	// for (i = 0; i < data_stastics_r; i++)
+	// {
+	// 	// tft180_draw_point(limit_a_b(points_r[i][0] , 0, 159), limit_a_b(points_r[i][1], 0, 127), RGB565_BLUE);//显示起点
+	// }
 
 	for (i = hightest; i < image_h-1; i++)
 	{
 		center_line[i] = (l_border[i] + r_border[i]) >> 1;//求中线
 		//求中线最好最后求，不管是补线还是做状态机，全程最好使用一组边线，中线最后求出，不能干扰最后的输出
 		//当然也有多组边线的找法，但是个人感觉很繁琐，不建议
-		tft180_draw_point(center_line[i], i, RGB565_GREEN);//显示起点 显示中线	
-		tft180_draw_point(l_border[i], i, RGB565_GREEN);//显示起点 显示左边线
-		tft180_draw_point(r_border[i], i, RGB565_GREEN);//显示起点 显示右边线
+        tft180_draw_point(MAP_X(points_l[i][0]), MAP_Y(points_l[i][1]), RGB565_RED);
+		tft180_draw_point(MAP_X(points_r[i][0]), MAP_Y(points_r[i][1]), RGB565_RED);
+		tft180_draw_point(MAP_X(center_line[i]), MAP_Y(i), RGB565_GREEN);
+		// tft180_draw_point(limit_a_b(center_line[i],0,159), limit_a_b(i,0,159), RGB565_GREEN);//显示起点 显示中线	
+        // tft180_draw_point(limit_a_b(l_border[i],0,159), limit_a_b(i,0,159), RGB565_GREEN);//显示起点 显示左边线
+        // tft180_draw_point(limit_a_b(r_border[i],0,159), limit_a_b(i,0,159), RGB565_GREEN);//显示起点 显示右边线		
+		static float integral_error = 0;
+		integral_error += error;
+		static float last_error = 0;
+        float derivative = error - last_error;
+        last_error = error;
+        float adjust = 20 * error + 0.1 * integral_error + 0 * derivative;
+        LMotor_PI(2000 + adjust, 0);
+        RMotor_PI(2000 - adjust, 0);
+		
 	}
 
 
 }
 
-
-
-
-
-/*
-
-这里是起点（0.0）***************——>*************x值最大
-************************************************************
-************************************************************
-************************************************************
-************************************************************
-******************假如这是一副图像*************************
-***********************************************************
-***********************************************************
-***********************************************************
-***********************************************************
-***********************************************************
-***********************************************************
-y值最大*******************************************(188.120)
-
-*/
 
 
