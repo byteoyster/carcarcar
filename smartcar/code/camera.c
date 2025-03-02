@@ -14,11 +14,9 @@ int left_h_find = 0;//每一行的左边起始点标志位
 int wide_num[image_h];//每一行的赛宽数量
 int circle_wide_flag = 0;//环岛标志位，用于入环选取偏差
 
-
 int hightest = 0;
 int elemin = 0;
 int make_flag = 0;
-
 
 int my_abs(int value)
 {
@@ -153,12 +151,12 @@ void search_line()
 {
     elemin = image_w / 2;
     circle_wide_flag = 0;
-    for(int i = image_h - 4; i > 38; i-=2)//遍历列
+    for(int i = image_h - 4; i > 30; i-=2)//遍历列
     {
         left_h_find = 0;//初始清零
         wide_num[i] = 0;//初始化
         make_flag = 0;
-        for (int j = 60; j < image_w - 60; j+=2)//遍历行
+        for (int j = 50; j < image_w - 50; j+=2)//遍历行
         {
             if (bin_image[i][j] == black_pixel && bin_image[i][j + 1] == white_pixel)//由黑到白的跳变点
             {
@@ -193,19 +191,19 @@ void search_line()
                 else center_line[i] = (l_border[i] + r_border[i]) / 2;
                 make_flag = wide_num[i];
             }
-            else if (wide_num[i] == 2 && circle_wide_flag==3&&wide_num[i] != make_flag)//入环
-            {
-                if ((my_max(my_abs(center_line[i] - center_line[i + 50]), my_abs((l_border[i] + r_border[i]) / 2 - center_line[i + 50])) == 0&&yuansu==0)||yuansu==1)
-                {
-                    yuansu = 1; center_line[i] = center_line[i];
-                }
-                if ((my_max(my_abs(center_line[i] - center_line[i + 50]), my_abs((l_border[i] + r_border[i]) / 2 - center_line[i + 50])) == 1&&yuansu==0)||yuansu == 2)
-                {
-                    yuansu = 2; center_line[i] = (l_border[i] + r_border[i]) / 2;
-                }
-               /* printf("\n%d", i);*/
-                  make_flag = wide_num[i];
-            }
+            // else if (wide_num[i] == 2 && circle_wide_flag==3&&wide_num[i] != make_flag)//入环
+            // {
+            //     if ((my_max(my_abs(center_line[i] - center_line[i + 50]), my_abs((l_border[i] + r_border[i]) / 2 - center_line[i + 50])) == 0&&yuansu==0)||yuansu==1)
+            //     {
+            //         yuansu = 1; center_line[i] = center_line[i];
+            //     }
+            //     if ((my_max(my_abs(center_line[i] - center_line[i + 50]), my_abs((l_border[i] + r_border[i]) / 2 - center_line[i + 50])) == 1&&yuansu==0)||yuansu == 2)
+            //     {
+            //         yuansu = 2; center_line[i] = (l_border[i] + r_border[i]) / 2;
+            //     }
+            //    /* printf("\n%d", i);*/
+            //       make_flag = wide_num[i];
+            // }
             else if (wide_num[i]!=make_flag)
             {
                 center_line[i] = (l_border[i] + r_border[i]) >> 1;//左右边线合成中线
@@ -217,9 +215,9 @@ void search_line()
                 make_flag = 1;
             }
             if (start_flag == 0)start_flag = 1;//已经找到最下方起始点
-			tft180_draw_point(MAP_X(l_border[i]), MAP_Y(i), RGB565_RED);
-			tft180_draw_point(MAP_X(r_border[i]), MAP_Y(i), RGB565_RED);
-			tft180_draw_point(MAP_X(center_line[i]), MAP_Y(i), RGB565_GREEN);
+			tft180_draw_point(l_border[i], i, RGB565_RED);
+			tft180_draw_point(r_border[i], i, RGB565_RED);
+			tft180_draw_point(center_line[i], i, RGB565_RED);
 
          } 
         if (wide_num[i] == 2 && circle_wide_flag == 0)circle_wide_flag = 1;//疑似环岛//环岛特征为两个赛宽变成一个赛宽再往上又是俩个赛宽
@@ -231,8 +229,8 @@ void search_line()
 void image_process(void)
 {
 int16 error = center_line[image_h / 2] - (image_w / 2);
-uint16 i;
-uint8 hightest = 0;//定义一个最高行，tip：这里的最高指的是y值的最小
+// uint16 i;
+
 
 /*这是离线调试用的*/
 Get_image(mt9v03x_image);
@@ -241,29 +239,29 @@ turn_to_bin();
 //显示图像 
 // tft180_displayimage03x((const uint8 *)mt9v03x_image, 160, 128); 
 tft180_show_gray_image(0,0,(const uint8*)mt9v03x_image,188,120,160,128,otsuThreshold((uint8*)mt9v03x_image,120,188));
- //tft180_clear();
+// tft180_clear();
 
  search_line();
 
-	// static float integral_error = 0;
-	// 	integral_error += error;
-	// 	static float last_error = 0;
-    //     float derivative = error - last_error;
-    //     last_error = error;
-    //     float adjust = 20 * error + 0.02 * integral_error + 0 * derivative;
-    //     LMotor_PI(1600 + adjust, 0);
-    //     RMotor_PI(1600 - adjust, 0);
-	// 	if (l_border[image_h / 2] == border_min)  // 左直角弯
-	// 	{
-	// 		system_delay_ms(650);
-    // 		LMotor_PI(0, 0);  // 左轮倒转
-    // 		RMotor_PI(1600, 0);   // 右轮加速
-	// 	}
-	// 	else if (r_border[image_h / 2] == border_max)  // 右直角弯
-	// 	{
-    // 		LMotor_PI(1600, 0);   // 左轮加速
-    // 		RMotor_PI(0, 0);  // 右轮倒转
-	// 	}
+	static float integral_error = 0;
+		integral_error += error;
+		static float last_error = 0;
+        float derivative = error - last_error;
+        last_error = error;
+        float adjust = 20 * error + 0.02 * integral_error + 0 * derivative;
+        LMotor_PI(1600 + adjust, 0);
+        RMotor_PI(1600 - adjust, 0);
+		if (l_border[image_h / 2] == border_min)  // 左直角弯
+		{
+			system_delay_ms(650);
+    		LMotor_PI(0, 0);  // 左轮倒转
+    		RMotor_PI(1600, 0);   // 右轮加速
+		}
+		else if (r_border[image_h / 2] == border_max)  // 右直角弯
+		{
+    		LMotor_PI(1600, 0);   // 左轮加速
+    		RMotor_PI(0, 0);  // 右轮倒转
+		}
 		
 
 

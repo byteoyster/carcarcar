@@ -1,0 +1,26 @@
+E:\Documents\GitHub\smartcar\smartcar\iar\Debug_m4\BrowseInfo\zf_device_6570275422786408770.dir\zf_device_tft180.pbi: \
+  C:\Users\root\Desktop\carcarcar\libraries\zf_device\zf_device_tft180.c \
+  E:\Documents\GitHub\smartcar\smartcar\iar\project_config\..\..\..\libraries\zf_common\zf_common_debug.h \
+  E:\Documents\GitHub\smartcar\smartcar\iar\project_config\..\..\..\libraries\zf_common\zf_common_typedef.h \
+  D:\IAR\ Systems\Embedded\ Workbench\ 9.2\arm\inc\c\stdio.h \
+  D:\IAR\ Systems\Embedded\ Workbench\ 9.2\arm\inc\c\ycheck.h \
+  D:\IAR\ Systems\Embedded\ Workbench\ 9.2\arm\inc\c\yvals.h \
+  D:\IAR\ Systems\Embedded\ Workbench\ 9.2\arm\inc\c\DLib_Defaults.h \
+  D:\IAR\ Systems\Embedded\ Workbench\ 9.2\arm\inc\c\DLib_Config_Normal.h \
+  D:\IAR\ Systems\Embedded\ Workbench\ 9.2\arm\inc\c\DLib_Product.h \
+  D:\IAR\ Systems\Embedded\ Workbench\ 9.2\arm\inc\c\ysizet.h \
+  D:\IAR\ Systems\Embedded\ Workbench\ 9.2\arm\inc\c\stdint.h \
+  D:\IAR\ Systems\Embedded\ Workbench\ 9.2\arm\inc\c\stdbool.h \
+  D:\IAR\ Systems\Embedded\ Workbench\ 9.2\arm\inc\c\stdarg.h \
+  D:\IAR\ Systems\Embedded\ Workbench\ 9.2\arm\inc\c\string.h \
+  D:\IAR\ Systems\Embedded\ Workbench\ 9.2\arm\inc\c\DLib_Product_string.h \
+  D:\IAR\ Systems\Embedded\ Workbench\ 9.2\arm\inc\c\stdlib.h \
+  D:\IAR\ Systems\Embedded\ Workbench\ 9.2\arm\inc\c\DLib_Product_stdlib.h \
+  E:\Documents\GitHub\smartcar\smartcar\iar\project_config\..\..\..\libraries\zf_common\zf_common_font.h \
+  E:\Documents\GitHub\smartcar\smartcar\iar\project_config\..\..\..\libraries\zf_common\zf_common_function.h \
+  E:\Documents\GitHub\smartcar\smartcar\iar\project_config\..\..\..\libraries\zf_driver\zf_driver_delay.h \
+  E:\Documents\GitHub\smartcar\smartcar\iar\project_config\..\..\..\libraries\zf_common\zf_common_typedef.h \
+  E:\Documents\GitHub\smartcar\smartcar\iar\project_config\..\..\..\libraries\zf_driver\zf_driver_soft_spi.h \
+  E:\Documents\GitHub\smartcar\smartcar\iar\project_config\..\..\..\libraries\zf_driver\zf_driver_gpio.h \
+  E:\Documents\GitHub\smartcar\smartcar\iar\project_config\..\..\..\libraries\zf_driver\zf_driver_spi.h \
+  C:\Users\root\Desktop\carcarcar\libraries\zf_device\zf_device_tft180.h

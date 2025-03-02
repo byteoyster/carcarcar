@@ -1,0 +1,21 @@
+"D:\IAR Systems\Embedded Workbench 9.2\arm\bin\armPROC.dll" 
+
+"D:\IAR Systems\Embedded Workbench 9.2\arm\bin\armJET.dll" 
+
+"E:\Documents\GitHub\smartcar\smartcar\iar\Debug_m4\Exe\cyt2bl3.out" 
+
+--plugin="D:\IAR Systems\Embedded Workbench 9.2\arm\bin\armLibSupportUniversal.dll" 
+
+--device_macro="D:\IAR Systems\Embedded Workbench 9.2\arm/config/debugger/Infineon/CYT2BL_M4.dmac" 
+
+--device_macro="D:\IAR Systems\Embedded Workbench 9.2\arm/config/debugger/Infineon/CYTVII_M4.dmac" 
+
+--device_macro="D:\IAR Systems\Embedded Workbench 9.2\arm/config/debugger/Infineon/CYTVII_Trace.dmac" 
+
+--device_macro="D:\IAR Systems\Embedded Workbench 9.2\arm/config/debugger/Infineon/CYTVII_Common.dmac" 
+
+--flash_loader="D:\IAR Systems\Embedded Workbench 9.2\arm/config/flashloader/Infineon/FlashCYT2_CF4M_WF128K.board" 
+
+
+
+
